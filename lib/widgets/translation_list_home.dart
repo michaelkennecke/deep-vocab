@@ -32,33 +32,42 @@ class _TranslationListState extends State<TranslationList>
       itemCount: this.widget.boxModel.box.length,
       itemBuilder: (BuildContext context, int index) {
         var translation = this.widget.boxModel.box[index];
-        return Container(
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      translation.word,
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(
-                      translation.wordTranslated,
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ],
+        return Dismissible(
+          key: ObjectKey(translation),
+          onDismissed: (direction) {
+            widget.boxModel.removeTranslation(index);
+            widget.examBoxModel.removeTranslation(index);
+          },
+          direction: DismissDirection.endToStart,
+          background: Container(
+            padding: EdgeInsets.only(right: 20.0),
+            alignment: Alignment.centerRight,
+            color: Colors.redAccent,
+            child: Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+          ),
+          child: Container(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        translation.word,
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      Text(
+                        translation.wordTranslated,
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              IconButton(
-                icon: Icon(Icons.delete),
-                splashColor: Colors.red,
-                onPressed: () => {
-                  widget.boxModel.removeTranslation(index),
-                  widget.examBoxModel.removeTranslation(index)
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

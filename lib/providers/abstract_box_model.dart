@@ -8,23 +8,37 @@ import '../models/translation.dart';
 
 abstract class AbstractBoxModel with ChangeNotifier {
   String boxId;
+  String from;
+  String to;
+  int fillGrade;
   List<Translation> box = [];
   int index = 0;
   SharedPreferences sharedPreferences;
 
-  void setBoxIdFromSelectedBox(String name) {
-    boxId = name;
+  void setBoxScaffoldParameters(
+      String boxId, String from, String to, int fillGrade) {
+    this.boxId = boxId;
+    this.from = from;
+    this.to = to;
+    this.fillGrade = fillGrade;
+    saveBoxScaffoldParameters();
+    loadData();
     notifyListeners();
   }
 
   void addTranslation(String word, String wordTranslated) {
     box.add(Translation(word, wordTranslated));
+    this.fillGrade += 1;
     saveData();
     notifyListeners();
   }
 
   void removeTranslation(int deletionIndex) {
     this.index = 0;
+    this.fillGrade -= 1;
+    if (fillGrade < 0) {
+      this.fillGrade = 0;
+    }
     box.removeAt(deletionIndex);
     saveData();
     notifyListeners();
@@ -70,26 +84,70 @@ abstract class AbstractBoxModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void loadData() async {
-    var tmpSelected = sharedPreferences.getString("selected");
-    if (tmpSelected == null || tmpSelected == "") {
-      boxId = BoxCollectionModel.DEFAULT_BOX_NAME;
+  void loadBoxScaffoldParameters() {
+    var tmpSelectedBoxId = sharedPreferences.getString("selectedBoxId");
+    var tmpFrom = sharedPreferences.getString("from");
+    var tmpTo = sharedPreferences.getString("to");
+    var tmpFillGrade = sharedPreferences.getInt("fillGrade");
+    if (tmpSelectedBoxId == null && boxId == null) {
+      this.boxId = BoxCollectionModel.DEFAULT_BOX_NAME;
+      this.from = BoxCollectionModel.DEFAULT_BOX_TRANSLATE_FROM_LANGUAGE;
+      this.to = BoxCollectionModel.DEFAULT_BOX_TRANSLATE_TO_LANGUAGE;
+      this.fillGrade = 0;
     } else {
-      boxId = tmpSelected;
-    }
-    List<String> listString = sharedPreferences.getStringList(this.boxId);
-    if (listString != null) {
-      var tmpBox = listString
-          .map((item) => Translation.fromMap(json.decode(item)))
-          .toList();
-      box = tmpBox;
+      this.boxId = tmpSelectedBoxId;
+      this.from = tmpFrom;
+      this.to = tmpTo;
+      this.fillGrade = tmpFillGrade;
     }
   }
 
-  void saveData() {
-    sharedPreferences.setString("selected", boxId);
-    List<String> stringList =
+  void loadBox() {
+    List<String> boxStringList = sharedPreferences.getStringList(this.boxId);
+    if (boxStringList != null) {
+      var tmpBox = boxStringList
+          .map((item) => Translation.fromMap(json.decode(item)))
+          .toList();
+      box = tmpBox;
+    } else {
+      this.box = [];
+    }
+  }
+
+  void loadData() async {
+    loadBoxScaffoldParameters();
+    loadBox();
+  }
+
+  void saveBoxScaffoldParameters() {
+    sharedPreferences.setString("selectedBoxId", boxId);
+    sharedPreferences.setString("from", from);
+    sharedPreferences.setString("to", to);
+    sharedPreferences.setInt("fillGrade", fillGrade);
+  }
+
+  void saveBox() {
+    List<String> boxStringList =
         this.box.map((item) => json.encode(item.toMap())).toList();
-    sharedPreferences.setStringList(this.boxId, stringList);
+    sharedPreferences.setStringList(this.boxId, boxStringList);
+  }
+
+  void saveData() {
+    saveBoxScaffoldParameters();
+    saveBox();
+  }
+
+  // TODO: Maybe not working as expected*
+  void deleteBox(String boxToDelete) {
+    final oldBox = this.boxId;
+    saveBox();
+    this.boxId = boxToDelete;
+    loadData();
+    box = [];
+    fillGrade = 0;
+    saveBox();
+    this.boxId = oldBox;
+    loadData();
+    notifyListeners();
   }
 }

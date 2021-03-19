@@ -1,25 +1,27 @@
+import 'package:easy_vocab/models/translation.dart';
+
 class BoxScaffold {
   String boxName;
-  String translateFromLanguage;
-  String translateToLanguage;
+  String from;
+  String to;
   int fillGrade;
 
-  BoxScaffold(
-      this.boxName, this.translateFromLanguage, this.translateToLanguage,
-      [this.fillGrade = 0]);
+  List<Translation> box;
+
+  BoxScaffold(this.boxName, this.from, this.to, [this.fillGrade = 0]);
 
   BoxScaffold.fromMap(Map map) {
     this.boxName = map['boxName'];
-    this.translateFromLanguage = map['translateFromLanguage'];
-    this.translateToLanguage = map['translateToLanguage'];
+    this.from = map['from'];
+    this.to = map['to'];
     this.fillGrade = map['fillGrade'];
   }
 
   Map toMap() {
     return {
       'boxName': this.boxName,
-      'translateFromLanguage': this.translateFromLanguage,
-      'translateToLanguage': this.translateToLanguage,
+      'from': this.from,
+      'to': this.to,
       'fillGrade': this.fillGrade,
     };
   }

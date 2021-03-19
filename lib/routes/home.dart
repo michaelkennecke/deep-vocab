@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:easy_vocab/providers/box_collection_model.dart';
 import 'package:easy_vocab/providers/box_model.dart';
 import 'package:easy_vocab/providers/exam_box_model.dart';
@@ -23,10 +21,18 @@ class _HomePageState extends State<HomePage> {
   ExamBoxModel examBoxModel;
 
   void refreshData() {
-    boxModel.setBoxIdFromSelectedBox(boxCollectionModel.selectedBoxName);
-    examBoxModel.setBoxIdFromSelectedBox(boxCollectionModel.selectedBoxName);
-    boxModel.loadSharedPreferencesAndData();
-    examBoxModel.loadSharedPreferencesAndData();
+    boxModel.setBoxScaffoldParameters(
+        boxCollectionModel.selectedBoxName,
+        boxCollectionModel.boxCollection[boxCollectionModel.currentIndex].from,
+        boxCollectionModel.boxCollection[boxCollectionModel.currentIndex].to,
+        boxCollectionModel
+            .boxCollection[boxCollectionModel.currentIndex].fillGrade);
+    examBoxModel.setBoxScaffoldParameters(
+        boxCollectionModel.selectedBoxName,
+        boxCollectionModel.boxCollection[boxCollectionModel.currentIndex].from,
+        boxCollectionModel.boxCollection[boxCollectionModel.currentIndex].to,
+        boxCollectionModel
+            .boxCollection[boxCollectionModel.currentIndex].fillGrade);
   }
 
   @override
@@ -44,21 +50,15 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.all_inbox),
             onPressed: () => Navigator.of(context)
                 ?.pushNamed(RouteGenerator.boxSelectionPage)
-                .whenComplete(() => refreshData()),
+                ?.whenComplete(() => refreshData()),
             tooltip: "Boxes",
           ),
-          /*IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () => Navigator.of(context)
-                ?.pushNamed(RouteGenerator.preferencesPage),
-            tooltip: "Settings",
-          ),*/
         ],
       ),
       body: Column(
         children: <Widget>[
-          TranslationInputWidget(boxModel.addTranslation,
-              examBoxModel.addTranslation, boxCollectionModel),
+          TranslationInputWidget(
+              boxModel.addTranslation, examBoxModel.addTranslation, boxModel),
           Expanded(
             child: TranslationList(boxModel, examBoxModel, boxCollectionModel),
           ),

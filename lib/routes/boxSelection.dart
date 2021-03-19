@@ -1,5 +1,6 @@
 import 'package:easy_vocab/providers/box_collection_model.dart';
 import 'package:easy_vocab/providers/box_model.dart';
+import 'package:easy_vocab/routes.dart';
 import 'package:easy_vocab/widgets/box_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -7,8 +8,6 @@ import 'package:provider/provider.dart';
 
 class BoxSelectionPage extends StatelessWidget {
   const BoxSelectionPage();
-
-  void addBox() {}
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +25,8 @@ class BoxSelectionPage extends StatelessWidget {
         splashColor: Colors.amberAccent,
         child: Icon(Icons.add),
         onPressed: () => {
-          boxCollectionModel.addBoxScaffoldToBoxCollection(
-              "Daily Vocabs", "English", "German", 0)
+          Navigator.of(context)?.pushNamed(RouteGenerator.createBoxPage),
+          //boxCollectionModel.addBoxScaffoldToBoxCollection("Daily Vocabs", "French", "German", 0)
         },
       ),
       body: Column(

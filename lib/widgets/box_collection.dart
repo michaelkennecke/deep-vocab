@@ -1,4 +1,4 @@
-import 'package:easy_vocab/models/BoxScaffold.dart';
+import 'package:easy_vocab/models/boxScaffold.dart';
 import 'package:easy_vocab/providers/box_collection_model.dart';
 import 'package:easy_vocab/providers/box_model.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +16,13 @@ class BoxCollectionWidget extends StatefulWidget {
 class _BoxCollectionWidgetState extends State<BoxCollectionWidget> {
   @override
   void initState() {
-    widget.boxCollectionModel.loadSharedPreferencesAndData();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        widget.boxCollectionModel.setFillGradeAt(
+            widget.boxCollectionModel.currentIndex, widget.boxModel.fillGrade);
+      });
+    });
   }
 
   void changeSelectedBox(String name, int index) {
@@ -64,6 +69,7 @@ class _BoxCollectionWidgetState extends State<BoxCollectionWidget> {
       key: ObjectKey(boxScaffold),
       onDismissed: (direction) {
         widget.boxCollectionModel.removeBoxScaffold(index);
+        widget.boxModel.deleteBox(boxScaffold.boxName);
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,7 +108,7 @@ class _BoxCollectionWidgetState extends State<BoxCollectionWidget> {
           style: TextStyle(fontSize: 16),
         ),
         Text(
-          "${boxScaffold.fillGrade} | ${boxScaffold.translateFromLanguage} - ${boxScaffold.translateToLanguage}",
+          "${boxScaffold.fillGrade} | ${boxScaffold.from} - ${boxScaffold.to}",
           style: TextStyle(
             color: Colors.white70,
           ),

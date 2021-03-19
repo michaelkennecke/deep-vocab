@@ -1,7 +1,7 @@
 import 'package:easy_vocab/routes/boxSelection.dart';
+import 'package:easy_vocab/routes/create_box.dart';
 import 'package:easy_vocab/routes/home.dart';
 import 'package:easy_vocab/routes/exam.dart';
-import 'package:easy_vocab/routes/preferences.dart';
 import 'package:easy_vocab/routes/train.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,7 +11,7 @@ class RouteGenerator {
   static const String trainPage = '/train';
   static const String examPage = '/exam';
   static const String boxSelectionPage = '/boxSelection';
-  static const String preferencesPage = '/preferences';
+  static const String createBoxPage = '/createBox';
 
   RouteGenerator._();
 
@@ -37,9 +37,9 @@ class RouteGenerator {
           builder: (_) => const BoxSelectionPage(),
         );
 
-      case preferencesPage:
+      case createBoxPage:
         return MaterialPageRoute(
-          builder: (_) => const PreferencesPage(),
+          builder: (_) => const CreateBoxPage(),
         );
 
       default:

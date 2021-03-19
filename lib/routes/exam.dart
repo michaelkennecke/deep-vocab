@@ -16,13 +16,7 @@ class ExamPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            examBoxModel.reset();
-            Navigator.pop(context);
-          },
-        ),
+        leading: ExitExam(boxModel.reset),
         title: Text("Vocabulary Test"),
       ),
       body: Column(
@@ -30,6 +24,55 @@ class ExamPage extends StatelessWidget {
           ExamBody(examBoxModel, boxModel.box),
         ],
       ),
+    );
+  }
+}
+
+class ExitExam extends StatefulWidget {
+  final Function resetExamCallback;
+
+  ExitExam(this.resetExamCallback);
+
+  @override
+  _ExitExamState createState() => _ExitExamState();
+}
+
+class _ExitExamState extends State<ExitExam> {
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back_ios),
+      onPressed: () {
+        _showAlertDialog();
+      },
+    );
+  }
+
+  void _showAlertDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('End test'),
+          content: Text(
+              'Do you really want to stop the test? The progress of the test will not be saved.'),
+          actions: <Widget>[
+            TextButton(
+                child: Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }),
+            TextButton(
+              child: Text('End'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                this.widget.resetExamCallback();
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -59,7 +102,6 @@ class _ExamBodyState extends State<ExamBody> {
           widget.examBoxModel.getPercentageOfExamCompletion();
       widget.examBoxModel.initBox(widget.standardBox);
       widget.examBoxModel.shuffleBox();
-      widget.examBoxModel.printBox();
     });
   }
 
@@ -182,11 +224,11 @@ class _ExamBodyState extends State<ExamBody> {
               decoration: InputDecoration(
                 prefixIcon: Icon(
                   Icons.question_answer,
-                  color: Colors.amberAccent,
+                  color: const Color(0xFFBffd265),
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
-                    color: Colors.amberAccent,
+                    color: const Color(0xFFBffd265),
                   ),
                 ),
                 hintText: "Enter your answer",

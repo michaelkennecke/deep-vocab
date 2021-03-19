@@ -1,14 +1,15 @@
-import 'package:easy_vocab/providers/box_collection_model.dart';
+import 'package:easy_vocab/providers/box_model.dart';
+import 'package:easy_vocab/providers/language_model.dart';
 import 'package:flutter/material.dart';
 import 'package:translator/translator.dart';
 
 class TranslationInputWidget extends StatefulWidget {
   final Function(String, String) callback;
   final Function(String, String) examBoxModelCallback;
-  final BoxCollectionModel boxCollectionModel;
+  final BoxModel boxModel;
 
   TranslationInputWidget(
-      this.callback, this.examBoxModelCallback, this.boxCollectionModel);
+      this.callback, this.examBoxModelCallback, this.boxModel);
 
   @override
   _TranslationInputWidgetState createState() => _TranslationInputWidgetState();
@@ -66,7 +67,8 @@ class _TranslationInputWidgetState extends State<TranslationInputWidget> {
 
   void translate() async {
     var translation = await translator.translate(this.wordController.text,
-        from: 'en', to: 'de');
+        from: LanguageShortcuts[Languages.indexOf(widget.boxModel.from)],
+        to: LanguageShortcuts[Languages.indexOf(widget.boxModel.to)]);
     setState(() {
       this.wordTranslatedController.text = translation.text;
     });
@@ -86,8 +88,7 @@ class _TranslationInputWidgetState extends State<TranslationInputWidget> {
                   ? Color(0xFFB81d4fa)
                   : Color(0xFFBafafaf),
             ),
-            hintText: "English",
-            //"${widget.boxCollectionModel.boxCollection.elementAt(widget.boxCollectionModel.currentIndex).translateFromLanguage.toString()}",
+            hintText: widget.boxModel.from,
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(
                 color: Color(0xFFB81d4fa),
@@ -105,7 +106,7 @@ class _TranslationInputWidgetState extends State<TranslationInputWidget> {
                   ? Color(0xFFB81d4fa)
                   : Color(0xFFBafafaf),
             ),
-            hintText: "German",
+            hintText: widget.boxModel.to,
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(
                 color: Color(0xFFB81d4fa),
