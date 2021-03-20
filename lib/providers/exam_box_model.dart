@@ -1,19 +1,11 @@
 import 'dart:math';
 
-import 'package:easy_vocab/models/translation.dart';
 import 'package:easy_vocab/providers/abstract_box_model.dart';
 
 class ExamBoxModel extends AbstractBoxModel {
   var isBoxShuffled = false;
   var unshuffledBox;
   var answerStatus = 0;
-
-  void initBox(List<Translation> newBox) {
-    if (unshuffledBox == null) {
-      box = newBox;
-      unshuffledBox = newBox;
-    }
-  }
 
   void shuffleBox() {
     if (!isBoxShuffled) {
@@ -37,7 +29,6 @@ class ExamBoxModel extends AbstractBoxModel {
   @override
   void reset() {
     index = 0;
-    box = unshuffledBox;
     isBoxShuffled = false;
     answerStatus = 0;
     notifyListeners();
@@ -66,7 +57,8 @@ class ExamBoxModel extends AbstractBoxModel {
   }
 
   bool checkAnswer(String answer) {
-    if (answer == this.getTranslationAtCurrentIndex().wordTranslated) {
+    if (answer.toLowerCase() ==
+        this.getTranslationAtCurrentIndex().wordTranslated.toLowerCase()) {
       return true;
     } else {
       return false;

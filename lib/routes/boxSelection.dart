@@ -1,5 +1,6 @@
 import 'package:easy_vocab/providers/box_collection_model.dart';
 import 'package:easy_vocab/providers/box_model.dart';
+import 'package:easy_vocab/providers/exam_box_model.dart';
 import 'package:easy_vocab/routes.dart';
 import 'package:easy_vocab/widgets/box_collection.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class BoxSelectionPage extends StatelessWidget {
     final boxCollectionModel =
         Provider.of<BoxCollectionModel>(context, listen: true);
     final boxModel = Provider.of<BoxModel>(context, listen: true);
+    final examBoxModel = Provider.of<ExamBoxModel>(context, listen: true);
 
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +34,8 @@ class BoxSelectionPage extends StatelessWidget {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: BoxCollectionWidget(boxCollectionModel, boxModel),
+            child:
+                BoxCollectionWidget(boxCollectionModel, boxModel, examBoxModel),
           ),
         ],
       ),

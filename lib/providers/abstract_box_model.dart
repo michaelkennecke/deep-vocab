@@ -137,17 +137,18 @@ abstract class AbstractBoxModel with ChangeNotifier {
     saveBox();
   }
 
-  // TODO: Maybe not working as expected*
-  void deleteBox(String boxToDelete) {
-    final oldBox = this.boxId;
-    saveBox();
-    this.boxId = boxToDelete;
-    loadData();
-    box = [];
-    fillGrade = 0;
-    saveBox();
-    this.boxId = oldBox;
-    loadData();
-    notifyListeners();
+  void deleteBox(String deleteBoxId, String deleteFrom, String deleteTo,
+      int deleteFillGrade) {
+    final previousBoxId = this.boxId;
+    final previousFrom = this.from;
+    final previousTo = this.to;
+    final previousFillGrade = this.fillGrade;
+    this.setBoxScaffoldParameters(
+        deleteBoxId, deleteFrom, deleteTo, deleteFillGrade);
+    this.box = [];
+    this.fillGrade = 0;
+    this.saveData();
+    this.setBoxScaffoldParameters(
+        previousBoxId, previousFrom, previousTo, previousFillGrade);
   }
 }

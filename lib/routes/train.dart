@@ -13,7 +13,7 @@ class TrainPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Casual Training"),
+        title: Text("Training"),
       ),
       body: TrainCards(boxModel),
     );
@@ -38,7 +38,11 @@ class _TrainCardsState extends State<TrainCards> {
         children: <Widget>[
           Text(
             "${widget.boxModel.index + 1}/ ${widget.boxModel.box.length}",
-            style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
@@ -84,11 +88,16 @@ class TranslationFlipCardWidget extends StatelessWidget {
         child: Center(
           child: Text(
             word,
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
             textAlign: TextAlign.center,
           ),
         ),
-        color: const Color(0xFFB81d4fa),
+        // 0xFFB81d4fa
+        color: const Color(0xFFBffd265),
       ),
       back: Container(
         height: 180,
@@ -96,11 +105,15 @@ class TranslationFlipCardWidget extends StatelessWidget {
         child: Center(
           child: Text(
             wordTranslated,
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87),
             textAlign: TextAlign.center,
           ),
         ),
-        color: const Color(0xFFB4ba3c7),
+        // 0xFFB4ba3c7
+        color: const Color(0xFFB81d4fa),
       ),
     );
   }

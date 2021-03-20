@@ -16,7 +16,7 @@ class ExamPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: ExitExam(boxModel.reset),
+        leading: ExitExam(examBoxModel.reset),
         title: Text("Vocabulary Test"),
       ),
       body: Column(
@@ -58,12 +58,22 @@ class _ExitExamState extends State<ExitExam> {
               'Do you really want to stop the test? The progress of the test will not be saved.'),
           actions: <Widget>[
             TextButton(
-                child: Text('Cancel'),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(
+                    color: Color(0xFFB81d4fa),
+                  ),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 }),
             TextButton(
-              child: Text('End'),
+              child: const Text(
+                'End',
+                style: TextStyle(
+                  color: Colors.redAccent,
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
                 this.widget.resetExamCallback();
@@ -100,7 +110,6 @@ class _ExamBodyState extends State<ExamBody> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       percentageOfExamCompletion =
           widget.examBoxModel.getPercentageOfExamCompletion();
-      widget.examBoxModel.initBox(widget.standardBox);
       widget.examBoxModel.shuffleBox();
     });
   }
@@ -152,8 +161,6 @@ class _ExamBodyState extends State<ExamBody> {
               widget.examBoxModel.answerStatus = 0,
               if (widget.examBoxModel.isLastTraslationOfBox())
                 {
-                  // Reset state and go back to home
-                  // TODO: Add winner page
                   widget.examBoxModel.reset(),
                   Navigator.pop(context),
                 }
@@ -183,7 +190,7 @@ class _ExamBodyState extends State<ExamBody> {
                   center: Text(
                       "${(percentageOfExamCompletion * 100).toStringAsFixed(0)} %"),
                   backgroundColor: Colors.grey,
-                  progressColor: Color(0xFFB1DB6E0),
+                  progressColor: const Color(0xFFB81d4fa),
                   alignment: MainAxisAlignment.center,
                 ),
                 IconButton(
@@ -213,7 +220,7 @@ class _ExamBodyState extends State<ExamBody> {
                     .wordTranslated),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(100, 50, 100, 0),
+            padding: EdgeInsets.fromLTRB(100, 30, 100, 0),
             child: TextField(
               focusNode: answerTextFieldFocusNode,
               autofocus: true,

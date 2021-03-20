@@ -53,6 +53,12 @@ class _HomePageState extends State<HomePage> {
                 ?.whenComplete(() => refreshData()),
             tooltip: "Boxes",
           ),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () =>
+                Navigator.of(context).pushNamed(RouteGenerator.settingsPage),
+            tooltip: "Settings",
+          )
         ],
       ),
       body: Column(

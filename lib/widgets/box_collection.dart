@@ -1,13 +1,16 @@
 import 'package:easy_vocab/models/boxScaffold.dart';
 import 'package:easy_vocab/providers/box_collection_model.dart';
 import 'package:easy_vocab/providers/box_model.dart';
+import 'package:easy_vocab/providers/exam_box_model.dart';
 import 'package:flutter/material.dart';
 
 class BoxCollectionWidget extends StatefulWidget {
   final BoxCollectionModel boxCollectionModel;
   final BoxModel boxModel;
+  final ExamBoxModel examBoxModel;
 
-  const BoxCollectionWidget(this.boxCollectionModel, this.boxModel);
+  const BoxCollectionWidget(
+      this.boxCollectionModel, this.boxModel, this.examBoxModel);
 
   @override
   _BoxCollectionWidgetState createState() => _BoxCollectionWidgetState();
@@ -69,7 +72,10 @@ class _BoxCollectionWidgetState extends State<BoxCollectionWidget> {
       key: ObjectKey(boxScaffold),
       onDismissed: (direction) {
         widget.boxCollectionModel.removeBoxScaffold(index);
-        widget.boxModel.deleteBox(boxScaffold.boxName);
+        widget.boxModel.deleteBox(boxScaffold.boxName, boxScaffold.from,
+            boxScaffold.to, boxScaffold.fillGrade);
+        widget.examBoxModel.deleteBox(boxScaffold.boxName, boxScaffold.from,
+            boxScaffold.to, boxScaffold.fillGrade);
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

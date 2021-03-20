@@ -25,6 +25,8 @@ class _TranslationInputWidgetState extends State<TranslationInputWidget> {
   var _wordInputSelected = false;
   var _wordTranslatedInputSelected = false;
 
+  bool _isEmpty = false;
+
   @override
   void initState() {
     super.initState();
@@ -34,6 +36,19 @@ class _TranslationInputWidgetState extends State<TranslationInputWidget> {
     _focusWordTranslatedInput.addListener(() {
       this._onFocusChangeWordTranslatedInput();
     });
+  }
+
+  bool _validate() {
+    bool empty;
+    if (this.wordController.text.isEmpty) {
+      empty = true;
+    } else {
+      empty = false;
+    }
+    setState(() {
+      this._isEmpty = empty;
+    });
+    return empty;
   }
 
   void _onFocusChangeWordInput() {
@@ -89,6 +104,7 @@ class _TranslationInputWidgetState extends State<TranslationInputWidget> {
                   : Color(0xFFBafafaf),
             ),
             hintText: widget.boxModel.from,
+            errorText: this._isEmpty ? 'Please enter a word' : null,
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(
                 color: Color(0xFFB81d4fa),
@@ -107,6 +123,7 @@ class _TranslationInputWidgetState extends State<TranslationInputWidget> {
                   : Color(0xFFBafafaf),
             ),
             hintText: widget.boxModel.to,
+            //errorText: this._isEmpty ? 'Please enter a word' : null,
             focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(
                 color: Color(0xFFB81d4fa),
@@ -123,7 +140,12 @@ class _TranslationInputWidgetState extends State<TranslationInputWidget> {
                 backgroundColor:
                     const Color(0xFFBffd265), // Alternative color: 0xFFFFD740
                 splashColor: Colors.amberAccent,
-                onPressed: this.translate,
+                onPressed: () {
+                  var empty = this._validate();
+                  if (!empty) {
+                    this.translate();
+                  }
+                },
                 child: Icon(Icons.translate),
               ),
               ClipPath(
@@ -138,7 +160,12 @@ class _TranslationInputWidgetState extends State<TranslationInputWidget> {
                       foregroundColor:
                           MaterialStateProperty.all<Color>(Colors.black),
                     ),
-                    onPressed: this.addItemToBox,
+                    onPressed: () {
+                      var empty = this._validate();
+                      if (!empty) {
+                        this.addItemToBox();
+                      }
+                    },
                     child: Center(
                       child: Text(
                         'Add',
