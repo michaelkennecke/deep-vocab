@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:easy_vocab/models/boxScaffold.dart';
+import 'package:easy_vocab/models/box_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

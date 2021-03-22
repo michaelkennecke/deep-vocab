@@ -12,7 +12,10 @@ class CreateBoxPage extends StatelessWidget {
     final boxCollectionModel =
         Provider.of<BoxCollectionModel>(context, listen: false);
     return Scaffold(
-      appBar: AppBar(title: Text("Create Box")),
+      appBar: AppBar(
+        title: Text("Create Box"),
+        centerTitle: true,
+      ),
       body: CreateBoxForm(boxCollectionModel.checkIfBoxAlreadyExists,
           boxCollectionModel.addBoxScaffoldToBoxCollection),
     );

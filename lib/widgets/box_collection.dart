@@ -1,4 +1,4 @@
-import 'package:easy_vocab/models/boxScaffold.dart';
+import 'package:easy_vocab/models/box_scaffold.dart';
 import 'package:easy_vocab/providers/box_collection_model.dart';
 import 'package:easy_vocab/providers/box_model.dart';
 import 'package:easy_vocab/providers/exam_box_model.dart';

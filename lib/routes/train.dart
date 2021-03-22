@@ -14,6 +14,7 @@ class TrainPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Training"),
+        centerTitle: true,
       ),
       body: TrainCards(boxModel),
     );

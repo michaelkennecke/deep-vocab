@@ -18,6 +18,7 @@ class ExamPage extends StatelessWidget {
       appBar: AppBar(
         leading: ExitExam(examBoxModel.reset),
         title: Text("Vocabulary Test"),
+        centerTitle: true,
       ),
       body: Column(
         children: <Widget>[

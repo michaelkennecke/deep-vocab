@@ -20,6 +20,7 @@ class BoxSelectionPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Boxes"),
+        centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor:
